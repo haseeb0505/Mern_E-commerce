@@ -78,13 +78,48 @@ padding:5px ;
 `
 
 const FilterSizeOption = styled.option`
-padding:5px ;`
+padding:5px 
 
-const AddContainer = styled.div``
+;`
 
-const AmountContainer = styled.div``
-const Amount = styled.span``
-const Button = styled.button``
+const AddContainer = styled.div`
+width: 50%;
+display: flex;
+align-items: center;
+justify-content: space-between;
+
+`
+
+const AmountContainer = styled.div`
+display: flex;
+align-items: center;
+font-weight: 700;
+cursor:pointer ;
+`
+const Amount = styled.span`
+width:30px ;
+height:30px ;
+border-radius:10px;
+border:1px solid teal ;
+text-align:center ;
+display: flex;
+align-items: center;
+justify-content: center;
+margin:0 5px ;
+cursor:pointer ;
+`
+const Button = styled.button`
+padding: 15px;
+border-radius: 5px;
+border:2px solid teal ;
+background-color: white;
+cursor: pointer;
+font-weight: 500;
+
+&:hover {
+    background-color: #f8f4f4;
+}
+`
 
 
 
