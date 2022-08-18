@@ -64,11 +64,20 @@ router.get("/find/:id", async (req, res) => {
 // Get All product
 router.get("/", async (req, res) => {
 
-    const query = req.query.new
+    const qNew = req.query.new
+    const qCategory = req.query.category
     try {
-        let products = query ? await Product.find().sort({ _id: -1 }).limit(5) : await Product.find();
+        let products;
+        if (qNew) {
+            products = await Product.find().sort({ createdAt: -1 }).limit(10);
+        } else if (qCategory) {
+            products = await Product.find({ categories: { $in: [qCategory] } });
+        } else {
+            products = await Product.find();
+        }
+
         if (!products) {
-            res.status(400).json({ message: "User not found" });
+            res.status(400).json({ message: "products not found" });
         } else {
 
             res.status(200).json(products);
@@ -80,35 +89,7 @@ router.get("/", async (req, res) => {
 
 })
 
-// // get user stats
-// router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
-//     const date = new Date();
-//     const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
-//     try {
-//         const stats = await User.aggregate([
-//             {
-//                 $match: {
-//                     createdAt: { $gte: lastYear }
-//                 }
-//             }, {
-//                 $project: {
-//                     month: { $month: "$createdAt" }
-//                 }
-//             }, {
-//                 $group: {
-//                     _id: "$month",
-//                     total: { $sum: 1 }
-//                 }
-//             }
-//         ]);
 
-//         res.status(200).json(stats);
-
-//     } catch (error) {
-//         res.status(500).json(error);
-//     }
-
-// })
 
 
 module.exports = router;
