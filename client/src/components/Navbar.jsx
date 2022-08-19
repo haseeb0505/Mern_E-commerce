@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Search, ShoppingCartOutlined } from "@material-ui/icons"
 import { Badge } from '@material-ui/core'
 import { mobile } from "../responsive"
+import { Link } from 'react-router-dom'
 
 
 
@@ -89,15 +90,21 @@ const Navbar = () => {
 
                 </Left>
                 <Center>
-                    <Logo >
-                        HZ.
-                    </Logo>
+                    <Link to={"/"} style={{ textDecoration: "none", color: "black" }} >
+                        <Logo >
+                            HZ.
+                        </Logo>
+                    </Link>
                 </Center>
                 <Right>
-                    <MenuItem>Register</MenuItem>
-                    <MenuItem>SignIn</MenuItem>
+                    <Link to={"/register"} style={{ textDecoration: "none", color: "black" }}>
+                        <MenuItem>Register</MenuItem>
+                    </Link>
+                    <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
+                        <MenuItem>SignIn</MenuItem>
+                    </Link>
                     <MenuItem>
-                        <Badge badgeContent={4} color="Secondary">
+                        <Badge badgeContent={4} color="secondary">
                             <ShoppingCartOutlined color="action" />
                         </Badge>
                     </MenuItem>
