@@ -1,4 +1,4 @@
-import { axios } from "axios"
+
 import { publicRequest } from "../requestMethod"
 import { loginFailure, loginStart, loginSucess } from "./userRedux"
 
