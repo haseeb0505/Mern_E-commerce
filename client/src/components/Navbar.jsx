@@ -109,11 +109,13 @@ const Navbar = () => {
                     <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
                         <MenuItem>SignIn</MenuItem>
                     </Link>
-                    <MenuItem>
-                        <Badge badgeContent={quantity} color="secondary">
-                            <ShoppingCartOutlined color="action" />
-                        </Badge>
-                    </MenuItem>
+                    <Link to="/cart">
+                        <MenuItem>
+                            <Badge badgeContent={quantity} color="secondary">
+                                <ShoppingCartOutlined color="action" />
+                            </Badge>
+                        </MenuItem>
+                    </Link>
                 </Right>
             </Wrapper>
 

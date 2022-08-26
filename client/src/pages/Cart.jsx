@@ -1,29 +1,27 @@
 import { Add, Remove } from '@material-ui/icons'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import Announcement from '../components/Announcement'
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
 import { mobile } from '../responsive'
+import StripeCheckout from "react-stripe-checkout"
+import { userRequest } from '../requestMethod'
+import { useNavigate } from 'react-router-dom';
+
+const KEY = process.env.REACT_APP_STRIPE
 
 
 const Container = styled.div`
-
-
-
 `
 const Wrapper = styled.div`
 padding: 20px;
 ${mobile({ padding: "0px 10px" })} 
-
-
 `
-
-
 const Title = styled.h1`
 font-weight: 300;
 text-align:center ;
-
 `
 const Top = styled.div`
 display: flex;
@@ -160,6 +158,32 @@ cursor: pointer;
 `
 
 const Cart = () => {
+    const cart = useSelector(state => state.cart)
+    const [stripeToken, setStripeToken] = useState(null)
+    const navigate = useNavigate();
+
+
+    const onToken = (token) => {
+        setStripeToken(token)
+    }
+
+    useEffect(() => {
+        const makeRequest = async () => {
+            try {
+                const res = await userRequest.post("/checkout/payment", { tokenId: stripeToken.id, amount: cart.total * 100 })
+                navigate("/sucess", {
+                    state: {
+                        stripeData: res.data,
+                        products: cart,
+                    }
+                });
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        stripeToken && makeRequest()
+    }, [stripeToken, cart.total, navigate, cart])
+
     return (
         <Container>
             <Navbar />
@@ -178,48 +202,31 @@ const Cart = () => {
                 </Top>
                 <Bottom>
                     <Info>
-                        <Product>
-                            <ProductDetails>
-                                <Image src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A" />
-                                <Details>
-                                    <ProductName><b>Product:</b>Jessie Thuder Shoes</ProductName>
-                                    <ProductId><b>ID:</b>Jessie Thuder Shoes</ProductId>
-                                    <ProductColor color='black' />
-                                    <ProductSize><b>Size:</b>37</ProductSize>
-                                </Details>
-                            </ProductDetails>
-                            <PriceDetails>
-                                <ProductAmountContainer>
-                                    <Add />
-                                    <ProductAmount>2</ProductAmount>
-                                    <Remove />
-                                </ProductAmountContainer>
-                                <ProductPrice><b>Price:</b>$100</ProductPrice>
+                        {cart.products.map((item) => (
+                            <Product key={item._id}>
+                                <ProductDetails>
+                                    <Image src={item.img} />
+                                    <Details>
+                                        <ProductName><b>Product:</b> {item.title}</ProductName>
+                                        <ProductId><b>ID:</b>{item._id}</ProductId>
+                                        <ProductColor color={item.color} />
+                                        <ProductSize><b>Size:</b>{item.size}</ProductSize>
+                                    </Details>
+                                </ProductDetails>
+                                <PriceDetails>
+                                    <ProductAmountContainer>
+                                        <Add />
+                                        <ProductAmount>{item.quantity}</ProductAmount>
+                                        <Remove />
+                                    </ProductAmountContainer>
+                                    <ProductPrice><b>Price:</b> $ {item.price * item.quantity}</ProductPrice>
 
-                            </PriceDetails>
-                        </Product>
+                                </PriceDetails>
+                            </Product>
+                        ))}
 
                         <Hr />
-                        <Product>
-                            <ProductDetails>
-                                <Image src="https://i.pinimg.com/originals/2d/af/f8/2daff8e0823e51dd752704a47d5b795c.png" />
-                                <Details>
-                                    <ProductName><b>Product:</b>HAKURA T-SHIRT</ProductName>
-                                    <ProductId><b>ID:</b>93813718293</ProductId>
-                                    <ProductColor color='gray' />
-                                    <ProductSize><b>Size:</b>M</ProductSize>
-                                </Details>
-                            </ProductDetails>
-                            <PriceDetails>
-                                <ProductAmountContainer>
-                                    <Add />
-                                    <ProductAmount>2</ProductAmount>
-                                    <Remove />
-                                </ProductAmountContainer>
-                                <ProductPrice><b>Price:</b>$100</ProductPrice>
 
-                            </PriceDetails>
-                        </Product>
 
                     </Info>
                     <Summary>
@@ -227,7 +234,7 @@ const Cart = () => {
                         <Hr />
                         <SummaryItem>
                             <SummaryItemText>SubTotal:</SummaryItemText>
-                            <SummaryItemPrice>$ 80</SummaryItemPrice>
+                            <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
                         </SummaryItem>
                         <SummaryItem>
                             <SummaryItemText>Estimated Shipping:</SummaryItemText>
@@ -240,9 +247,20 @@ const Cart = () => {
                         <Hr />
                         <SummaryItem type="total">
                             <SummaryItemText >Total:</SummaryItemText>
-                            <SummaryItemPrice>$ 80</SummaryItemPrice>
+                            <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
                         </SummaryItem>
-                        <Button>Checkout Now</Button>
+                        <StripeCheckout
+                            name="HZ Shop"
+                            image="https://avatars.githubusercontent.com/u/1486366?v=4"
+                            billingAddress
+                            shippingAddress
+                            description={`Your total is $${cart.total}`}
+                            amount={cart.total * 100}
+                            token={onToken}
+                            stripeKey={KEY}
+                        >
+                            <Button>CHECKOUT NOW</Button>
+                        </StripeCheckout>
                     </Summary>
                 </Bottom>
 
@@ -251,7 +269,7 @@ const Cart = () => {
 
             <Footer />
 
-        </Container>
+        </Container >
     )
 }
 
