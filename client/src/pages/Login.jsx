@@ -57,6 +57,10 @@ color: white;
 cursor:pointer ;
 border-radius:10px ;
 margin-bottom:10px ;
+&&:disabled{
+    background-color:black;
+    cursor:not-allowed
+}
 `
 const Link = styled.a`
   margin: 5px 0px;
@@ -64,6 +68,9 @@ const Link = styled.a`
   text-decoration: underline;
   cursor: pointer;
 `;
+const Error = styled.span`
+color:red
+`
 
 
 const Login = () => {
@@ -71,7 +78,8 @@ const Login = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const dispatch = useDispatch()
-    const user = useSelector(state => state.user)
+    const { isFetching, error } = useSelector(state => state.user)
+
 
     const handleClick = (e) => {
         e.preventDefault();
@@ -87,8 +95,9 @@ const Login = () => {
                 <Form>
                     <Input placeholder="username" onChange={(e) => setUsername(e.target.value)} />
                     <Input type="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} />
-                    <Button onClick={handleClick} disabled={user.isFetching}>LOGIN</Button>
-
+                    <Button onClick={handleClick} disabled={isFetching}>LOGIN</Button>
+                    {error && <Error>Something went wrong... </Error>
+                    }
                     <Link>DO NOT YOU REMEMBER THE PASSWORD?</Link>
                     <Link>CREATE A NEW ACCOUNT</Link>
                 </Form>

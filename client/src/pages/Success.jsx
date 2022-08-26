@@ -8,49 +8,43 @@ import { removeProduct } from "../redux/cartRedux"
 const Success = () => {
     const location = useLocation();
     const dispatch = useDispatch()
-
-    //in Cart.jsx I sent data and cart. Please check that page for the changes.(in video it's only data)
-    const data = location.state.stripeData;
-    const cart = location.state.products;
-    // const currentUser = useSelector((state) => state.user.currentUser);
+    const data = location.state?.stripeData;
+    const cart = location.state?.products;
+    const currentUser = useSelector((state) => state.user.currentUser);
 
 
     const [orderId, setOrderId] = useState(null);
 
+    useEffect(() => {
+        const createOrder = async () => {
+            try {
+                const res = await userRequest.post("/orders",
 
+                    {
+                        userId: currentUser.data._id,
+                        products: cart.products.map((item) => ({
+                            productId: item._id,
+                            quantity: item.quantity,
+                            color: item.color,
+                            size: item.size
 
-
-    // useEffect(() => {
-    //     const createOrder = async () => {
-    //         try {
-    //             const res = await userRequest.post("/orders",
-
-    //                 {
-    //                     userId: currentUser._id,
-    //                     products: cart.products.map((item) => ({
-    //                         productId: item._id,
-    //                         quantity: item.quantity,
-    //                         color: item.color,
-    //                         size: item.size
-
-    //                     })),
-    //                     amount: cart.total,
-    //                     address: data.billing_details.address,
-    //                 });
-    //             setOrderId(res.data._id);
-    //         } catch { }
-    //     };
-    //     data && createOrder();
-    // }, [cart, data, currentUser]);
+                        })),
+                        amount: cart.total,
+                        address: data.stripeRes.billing_details.address,
+                    });
+                setOrderId(res.data._id);
+            } catch (error) {
+                console.log(error)
+            }
+        };
+        data && createOrder();
+    }, [cart, data, currentUser]);
     const handleClick = () => {
 
         // update cart
         dispatch(
             removeProduct()
         )
-
-
-
     }
     return (
         <div

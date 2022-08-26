@@ -1,15 +1,19 @@
 import axios from "axios"
+import { useSelector } from "react-redux";
 
 const BASE_URL = "http://localhost:5000/api/"
-const Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZmQwZjM3NWIwY2NhMjU0NmQyNTk3OSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY2MDkyMDQ1MCwiZXhwIjoxNjYxMTc5NjUwfQ.lVLl9K8eNJBB8JCkpavY06AvqWjwinkQ57-8Df6-dgY"
+
+const user = JSON.parse(localStorage.getItem("persist:root"))?.user;
+const currentUser = user && JSON.parse(user).currentUser;
+const TOKEN = currentUser?.data.accessToken;
 
 export const publicRequest = axios.create({
     baseUrl: BASE_URL
 });
 export const userRequest = axios.create({
     baseUrl: BASE_URL,
-    header: {
-        token: `Bearer ${Token}`
+    headers: {
+        token: `Bearer ${TOKEN}`
     }
 });
 
