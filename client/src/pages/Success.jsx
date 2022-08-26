@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { userRequest } from "../requestMethod";
-// import { emptyCart } from "../redux/cartRedux"
+import { removeProduct } from "../redux/cartRedux"
 
 const Success = () => {
     const location = useLocation();
@@ -17,7 +17,7 @@ const Success = () => {
 
     const [orderId, setOrderId] = useState(null);
 
-    console.log(cart)
+
 
 
     // useEffect(() => {
@@ -45,9 +45,9 @@ const Success = () => {
     const handleClick = () => {
 
         // update cart
-        // dispatch(
-        //     emptyCart()
-        // )
+        dispatch(
+            removeProduct()
+        )
 
 
 
