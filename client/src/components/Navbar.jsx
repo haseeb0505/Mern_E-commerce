@@ -80,6 +80,8 @@ font-size: 14px;
 const Navbar = () => {
     const quantity = useSelector(state => state.cart.quantity)
 
+    const user = useSelector(state => state.user.currentUser)
+
 
 
     return (
@@ -103,12 +105,12 @@ const Navbar = () => {
                     </Link>
                 </Center>
                 <Right>
-                    <Link to={"/register"} style={{ textDecoration: "none", color: "black" }}>
+                    {!user && <><Link to={"/register"} style={{ textDecoration: "none", color: "black" }}>
                         <MenuItem>Register</MenuItem>
                     </Link>
-                    <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
-                        <MenuItem>SignIn</MenuItem>
-                    </Link>
+                        <Link to="/login" style={{ textDecoration: "none", color: "black" }}>
+                            <MenuItem>SignIn</MenuItem>
+                        </Link></>}
                     <Link to="/cart">
                         <MenuItem>
                             <Badge badgeContent={quantity} color="secondary">

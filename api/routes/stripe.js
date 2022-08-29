@@ -1,10 +1,11 @@
 const router = require("express").Router()
-const stripe = require("stripe")(process.env.STRIPE_KEY)
+const Stripe = require("stripe")
 
 
-router.post("/payment", (req, res) => {
+router.post("/payment", async (req, res) => {
+    const stripe = Stripe(`${process.env.STRIPE_KEY}`)
 
-    stripe.charges.create({
+    await stripe.charges.create({
         source: req.body.tokenId,
         amount: req.body.amount,
         currency: "usd"
