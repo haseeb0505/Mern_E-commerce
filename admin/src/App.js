@@ -10,15 +10,17 @@ import ProductList from "./pages/productList/ProductList";
 import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
 import Login from "./pages/login/Login";
+import { useSelector } from "react-redux";
 
 function App() {
-  let user = false
+  const { currentUser } = useSelector(state => state.user)
+
   return (
     <Router>
       <Route path="/login">
-        {user ? <Redirect to="/" /> : <Login />}
+        {currentUser ? <Redirect to="/" /> : <Login />}
       </Route>
-      {user && <>
+      {currentUser ? <>
 
         <Topbar />
         <div className="container">
@@ -47,7 +49,7 @@ function App() {
             </Route>
           </Switch>
         </div>
-      </>}
+      </> : <Redirect to="/login" />}
     </Router>
   );
 }
