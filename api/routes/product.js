@@ -75,21 +75,13 @@ router.get("/", async (req, res) => {
         } else {
             products = await Product.find();
         }
-
         if (!products) {
             res.status(400).json({ message: "products not found" });
         } else {
-
             res.status(200).json(products);
         }
-
     } catch (error) {
         res.status(500).json(error);
     }
-
 })
-
-
-
-
 module.exports = router;
