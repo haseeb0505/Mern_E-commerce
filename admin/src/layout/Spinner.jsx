@@ -11,8 +11,8 @@ function Spinner() {
                 style={{
                     //width: "200px",
                     position: "absolute",
-                    left: "50%",
-                    top: "45%",
+                    left: "45%",
+                    top: "40%",
                 }}
                 alt='Loading...'
             />

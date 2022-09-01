@@ -22,9 +22,9 @@
   cursor: pointer;
 }
 
-.topRight{
-    display: flex;
-    align-items: center;
+.topRight {
+  display: flex;
+  align-items: center;
 }
 
 .topbarIconContainer {
@@ -34,24 +34,65 @@
   color: #555;
 }
 
-.topIconBadge{
-    width: 15px;
-    height: 15px;
-    position: absolute;
-    top: -5px;
-    right: 0px;
-    background-color: red;
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
+.topIconBadge {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: -5px;
+  right: 0px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
 }
 
-.topAvatar{
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
+.topAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.Logoutbox {
+  width: 25%;
+  height: 15%;
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  align-content: center;
+  border-radius: 5%;
+  transition: all 1.5s ease;
+  border: 0.5px solid lightgrey;
+  background-color: rgb(251, 251, 255);
+
+}
+
+.text {
+  padding-top: 40px;
+  margin-bottom: 15px;
+  font-size: 24px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px
+}
+
+.lbuttons {
+  border: none;
+  padding: 10px 20px;
+  background-color: #0071c2;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px
 }

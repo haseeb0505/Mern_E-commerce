@@ -37,7 +37,7 @@ router.post("/login", async (req, res) => {
 
                 let { password, ...info } = user._doc;
 
-                res.status(200).json({ message: "Login success", data: { ...info, accessToken } });
+                res.status(200).json({ ...info, accessToken });
             } else {
                 res.status(400).json({ message: "Password not match" });
             }
