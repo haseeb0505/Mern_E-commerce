@@ -6,8 +6,6 @@ import { logout } from "../../redux/userSlice";
 
 export default function Topbar() {
 
-
-
   const dispatch = useDispatch()
   const handleClick = () => {
     dispatch(logout())

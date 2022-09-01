@@ -14,18 +14,16 @@ import { useSelector } from "react-redux";
 
 function App() {
   const { currentUser } = useSelector(state => state.user)
-
   return (
     <Router>
-      <Route path="/login">
-        {currentUser ? <Redirect to="/" /> : <Login />}
-      </Route>
-      {currentUser ? <>
-
-        <Topbar />
-        <div className="container">
-          <Sidebar />
-          <Switch>
+      <Switch>
+        <Route path="/login">
+          {currentUser ? <Redirect to="/" /> : <Login />}
+        </Route>
+        {currentUser ? <>
+          <Topbar />
+          <div className="container">
+            <Sidebar />
             <Route exact path="/">
               <Home />
             </Route>
@@ -47,11 +45,11 @@ function App() {
             <Route path="/newproduct">
               <NewProduct />
             </Route>
-          </Switch>
-        </div>
-      </> : <Redirect to="/login" />}
-    </Router>
-  );
-}
+          </div>
+        </> : <Redirect to="/login" />}
+      </Switch>
+    </Router >
 
+  )
+}
 export default App;
