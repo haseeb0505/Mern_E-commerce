@@ -10,7 +10,7 @@ export default function Topbar() {
 
   const dispatch = useDispatch()
   const handleClick = () => {
-    setLogoutbox(true)
+    setLogoutbox(!logoutbox)
   }
 
   const handleLogout = () => {
